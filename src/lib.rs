@@ -5,6 +5,7 @@ use webthing::{Thing, Property, Event, Action};
 
 pub struct WotDirectory;
 
+#[allow(unused)]
 impl Thing for WotDirectory {
     fn as_thing_description(&self) -> Map<String, Value> {
         todo!()
