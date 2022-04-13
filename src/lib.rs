@@ -2,6 +2,7 @@ use serde_json::json;
 use std::sync::{Arc, RwLock};
 use webthing::{BaseThing, Thing};
 
+#[allow(unused)]
 fn get_directory_thing() -> Arc<RwLock<Box<dyn Thing + 'static>>> {
     let mut thing = BaseThing::new(
         "urn:dev:directory-thing".to_string(),
