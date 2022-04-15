@@ -1,6 +1,6 @@
 use serde_json::json;
 use std::sync::{Arc, RwLock};
-use webthing::{BaseThing, Thing};
+use webthing::{BaseProperty, BaseThing, Thing};
 
 #[allow(unused)]
 fn get_directory_thing() -> Arc<RwLock<Box<dyn Thing + 'static>>> {
@@ -12,6 +12,190 @@ fn get_directory_thing() -> Arc<RwLock<Box<dyn Thing + 'static>>> {
     );
 
     // TODO fully build the Thing description
+
+    let retrieve_td = json!({
+        "description": "Retrieve a Thing Description",
+        "uriVariables": {
+            "id": {
+                "title": "Thing Description ID",
+                "type": "string",
+                "format": "iri-reference"
+            }
+        },
+        "forms": [
+            {
+                "href": "/td/{id}",
+                "htv:methodName": "GET",
+                "response": {
+                    "description": "Success response",
+                    "htv:statusCodeValue": 200,
+                    "contentType": "application/td+json"
+                },
+                "additionalResponses": [
+                    {
+                        "description": "TD with the given id not found",
+                        "contentType": "application/problem+json",
+                        "htv:statusCodeValue": 404
+                    }
+                ],
+                "scopes": "read"
+            }
+        ]
+    });
+    let retrieve_td = retrieve_td.as_object().unwrap().clone();
+    thing.add_property(Box::new(BaseProperty::new(
+        "retrieveTD".to_owned(),
+        json!(null),
+        None,
+        Some(retrieve_td),
+    )));
+
+    let retrieve_tds = json!({
+        "description": "Retrieve all Thing Descriptions",
+        "forms": [
+            {
+                "href": "/td",
+                "htv:methodName": "GET",
+                "response": {
+                    "description": "Success response",
+                    "htv:statusCodeValue": 200,
+                    "contentType": "application/ld+json",
+                },
+                "scopes": "readAll"
+            }
+        ]
+    });
+    let retrieve_tds = retrieve_tds.as_object().unwrap().clone();
+    thing.add_property(Box::new(BaseProperty::new(
+        "retrieveTDs".to_owned(),
+        json!(null),
+        None,
+        Some(retrieve_tds),
+    )));
+
+    let search_json_path = json!({
+        "description": "JSONPath syntactic search",
+        "uriVariables": {
+            "query": {
+                "title": "A valid JSONPath expression",
+                "type": "string"
+            }
+        },
+        "forms": [
+            {
+                "href": "/search/jsonpath?query={query}",
+                "htv:methodName": "GET",
+                "response": {
+                    "description": "Success response",
+                    "contentType": "application/json",
+                    "htv:statusCodeValue": 200
+                },
+                "additionalResponses": [
+                    {
+                        "description": "JSONPath expression not provided or contains syntax errors",
+                        "contentType": "application/problem+json",
+                        "htv:statusCodeValue": 400
+                    }
+                ],
+                "scopes": "search"
+            }
+        ]
+    });
+    let search_json_path = search_json_path.as_object().unwrap().clone();
+    thing.add_property(Box::new(BaseProperty::new(
+        "searchJSONPath".to_owned(),
+        json!(null),
+        None,
+        Some(search_json_path),
+    )));
+
+    let search_xpath = json!({
+        "description": "XPath syntactic search",
+        "uriVariables": {
+            "query": {
+                "title": "A valid XPath expression",
+                "type": "string"
+            }
+        },
+        "forms": [
+            {
+                "href": "/search/xpath?query={query}",
+                "htv:methodName": "GET",
+                "response": {
+                    "description": "Success response",
+                    "contentType": "application/json",
+                    "htv:statusCodeValue": 200
+                },
+                "additionalResponses": [
+                    {
+                        "description": "JSONPath expression not provided or contains syntax errors",
+                        "contentType": "application/problem+json",
+                        "htv:statusCodeValue": 400
+                    }
+                ],
+                "scopes": "search"
+            }
+        ]
+    });
+    let search_xpath = search_xpath.as_object().unwrap().clone();
+    thing.add_property(Box::new(BaseProperty::new(
+        "searchXPath".to_owned(),
+        json!(null),
+        None,
+        Some(search_xpath),
+    )));
+
+    let search_sparql = json!({
+        "description": "SPARQL semantic search",
+        "uriVariables": {
+            "query": {
+                "title": "A valid SPARQL 1.1. query",
+                "type": "string"
+            }
+        },
+        "forms": [
+            {
+                "href": "/search/sparql?query={query}",
+                "htv:methodName": "GET",
+                "response": {
+                    "description": "Success response",
+                    "htv:statusCodeValue": 200
+                },
+                "additionalResponses": [
+                    {
+                        "description": "JSONPath expression not provided or contains syntax errors",
+                        "contentType": "application/problem+json",
+                        "htv:statusCodeValue": 400
+                    }
+                ],
+                "scopes": "search"
+            },
+            {
+                "href": "/search/sparql",
+                "htv:methodName": "POST",
+                "response": {
+                    "description": "Success response",
+                    "contentType": "application/json",
+                    "htv:statusCodeValue": 200
+                },
+                "additionalResponses": [
+                    {
+                        "description": "JSONPath expression not provided or contains syntax errors",
+                        "contentType": "application/problem+json",
+                        "htv:statusCodeValue": 400
+                    }
+                ],
+                "scopes": "search"
+            }
+        ]
+    });
+    let search_sparql = search_sparql.as_object().unwrap().clone();
+    thing.add_property(Box::new(BaseProperty::new(
+        "searchSPARQL".to_owned(),
+        json!(null),
+        None,
+        Some(search_sparql),
+    )));
 
     let registration_metadata = json!({
         "uriVariables": {
