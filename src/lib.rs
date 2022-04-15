@@ -229,6 +229,7 @@ fn get_directory_thing() -> Arc<RwLock<Box<dyn Thing + 'static>>> {
         Some(retrieve_tds),
     )));
 
+    /*
     let search_json_path = json!({
         "description": "JSONPath syntactic search",
         "uriVariables": {
@@ -352,6 +353,7 @@ fn get_directory_thing() -> Arc<RwLock<Box<dyn Thing + 'static>>> {
         None,
         Some(search_sparql),
     )));
+    */
 
     let registration_metadata = json!({
         "uriVariables": {
