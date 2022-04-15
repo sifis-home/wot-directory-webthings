@@ -11,7 +11,7 @@ fn get_directory_thing() -> Arc<RwLock<Box<dyn Thing + 'static>>> {
         Some("A web of things description directory".to_string()),
     );
 
-    // TODO fully build the Thing description
+    // TODO add security descriptions
 
     let create_td_metadata = json!({
         "description": "Create a Thing Description",
@@ -229,6 +229,7 @@ fn get_directory_thing() -> Arc<RwLock<Box<dyn Thing + 'static>>> {
         Some(retrieve_tds),
     )));
 
+    // TODO implement search
     /*
     let search_json_path = json!({
         "description": "JSONPath syntactic search",
