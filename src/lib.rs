@@ -13,6 +13,162 @@ fn get_directory_thing() -> Arc<RwLock<Box<dyn Thing + 'static>>> {
 
     // TODO fully build the Thing description
 
+    let create_td_metadata = json!({
+        "description": "Create a Thing Description",
+        "uriVariables": {
+            "id": {
+                "title": "Thing Description ID",
+                "type": "string",
+                "format": "iri-reference"
+            }
+        },
+        "forms": [
+            {
+                "href": "/td/{id}",
+                "htv:methodName": "PUT",
+                "contentType": "application/td+json",
+                "response": {
+                    "description": "Success response",
+                    "htv:statusCodeValue": 201
+                },
+                "additionalResponses": [
+                    {
+                        "description": "Invalid serialization or TD",
+                        "contentType": "application/problem+json",
+                        "htv:statusCodeValue": 400
+                    }
+                ],
+                "scopes": "write"
+            },
+            {
+                "href": "/td",
+                "htv:methodName": "POST",
+                "contentType": "application/td+json",
+                "response": {
+                    "description": "Success response",
+                    "htv:headers": [
+                        {
+                            "description": "System-generated UUID (version 4) URN",
+                            "htv:fieldName": "Location",
+                            "htv:fieldValue": ""
+                        }
+                    ],
+                    "htv:statusCodeValue": 201
+                },
+                "additionalResponses": [
+                    {
+                        "description": "Invalid serialization or TD",
+                        "contentType": "application/problem+json",
+                        "htv:statusCodeValue": 400
+                    }
+                ],
+                "scopes": "write"
+            }
+        ]
+    });
+    let create_td_metadata = create_td_metadata.as_object().unwrap().clone();
+    thing.add_available_action("createTD".to_owned(), create_td_metadata);
+
+    let update_td_metadata = json!({
+        "description": "Update a Thing Description",
+        "uriVariables": {
+            "id": {
+                "title": "Thing Description ID",
+                "type": "string",
+                "format": "iri-reference"
+            }
+        },
+        "forms": [
+            {
+                "href": "/td/{id}",
+                "htv:methodName": "PUT",
+                "contentType": "application/td+json",
+                "response": {
+                    "description": "Success response",
+                    "htv:statusCodeValue": 204
+                },
+                "additionalResponses": [
+                    {
+                        "description": "Invalid serialization or TD",
+                        "contentType": "application/problem+json",
+                        "htv:statusCodeValue": 400
+                    }
+                ],
+                "scopes": "write"
+            }
+        ]
+    });
+    let update_td_metadata = update_td_metadata.as_object().unwrap().clone();
+    thing.add_available_action("updateTD".to_owned(), update_td_metadata);
+
+    let update_partial_metadata = json!({
+        "description": "Update parts of a Thing Description",
+        "uriVariables": {
+            "id": {
+                "title": "Thing Description ID",
+                "type": "string",
+                "format": "iri-reference"
+            }
+        },
+        "forms": [
+            {
+                "href": "/td/{id}",
+                "htv:methodName": "PATCH",
+                "contentType": "application/merge-patch+json",
+                "response": {
+                    "description": "Success response",
+                    "htv:statusCodeValue": 204
+                },
+                "additionalResponses": [
+                    {
+                        "description": "Invalid serialization or TD",
+                        "contentType": "application/problem+json",
+                        "htv:statusCodeValue": 400
+                    },
+                    {
+                        "description": "TD with the given id not found",
+                        "contentType": "application/problem+json",
+                        "htv:statusCodeValue": 404
+                    }
+                ],
+                "scopes": "write"
+            }
+        ]
+    });
+    let update_partial_metadata = update_partial_metadata.as_object().unwrap().clone();
+    thing.add_available_action("updatePartialTD".to_owned(), update_partial_metadata);
+
+    let delete_metadata = json!({
+        "description": "Delete a Thing Description",
+        "uriVariables": {
+            "id": {
+                "title": "Thing Description ID",
+                "type": "string",
+                "format": "iri-reference"
+            }
+        },
+        "forms": [
+            {
+                "href": "/td/{id}",
+                "htv:methodName": "DELETE",
+                "response": {
+                    "description": "Success response",
+                    "htv:statusCodeValue": 204
+                },
+                "additionalResponses": [
+                    {
+                        "description": "TD with the given id not found",
+                        "contentType": "application/problem+json",
+                        "htv:statusCodeValue": 404
+                    }
+                ],
+                "scopes": "write"
+            }
+        ]
+    });
+    let delete_metadata = delete_metadata.as_object().unwrap().clone();
+    thing.add_available_action("deleteTD".to_owned(), delete_metadata);
+
     let retrieve_td = json!({
         "description": "Retrieve a Thing Description",
         "uriVariables": {
