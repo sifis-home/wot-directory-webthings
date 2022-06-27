@@ -1,6 +1,34 @@
 use serde_json::json;
-use std::sync::{Arc, RwLock};
-use webthing::{BaseProperty, BaseThing, Thing};
+use wot_td::{thing::Thing, builder::{human_readable_info::BuildableHumanReadableInfo, affordance::BuildableInteractionAffordance, data_schema::{SpecializableDataSchema, BuildableDataSchema}}};
+
+
+pub struct Directory {
+    td: Thing,
+}
+
+impl Directory {
+    fn new() -> Self {
+        let td = Thing::build("Thing Description Directory (TDD)")
+            .attype("DirectoryDescription")
+            .description("A web of things description directory")
+            .action("createTD", |a| a.description("Create a Thing Description")
+                .uri_variable(
+                    "id", |v| v.description("Thing Description ID")
+                    .string()
+                    .format("iri-reference")
+                )
+                .form(|f| f.href("/td/{id}")
+                    .content_type("application/td+json"))
+                .form(|f| f.href("/td")
+                    .content_type("application/td+json"))
+
+            )
+            .
+
+
+        Self { td }
+    }
+}
 
 #[allow(unused)]
 fn get_directory_thing() -> Arc<RwLock<Box<dyn Thing + 'static>>> {
