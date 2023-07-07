@@ -1,10 +1,10 @@
 [package]
-name = "wot-discovery"
+name = "wot-directory"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
-description = "Web of Things (WoT) Thing server"
-repository = "https://github.com/sifis-home/wot-discovery"
+description = "Web of Things (WoT) Thing Directory"
+repository = "https://github.com/sifis-home/wot-directory"
 keywords = ["wot", "WebofThings"]
 
 [dependencies]

@@ -1,6 +1,6 @@
-# [![logo](https://github.com/sifis-home/wot/raw/master/assets/wot-rust-icon.svg)](https://docs.rs/wot-td) wot-discovery
+# [![logo](https://github.com/sifis-home/wot/raw/master/assets/wot-rust-icon.svg)](https://docs.rs/wot-td) wot-directory
 
-Tiny implementation of WoT Discovery.
+Tiny implementation of WoT Directory based on Webthings.
 
 https://www.w3.org/TR/wot-discovery/
 
